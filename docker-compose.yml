@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  ai-duo-chat:
+    build: .
+    container_name: ai-duo-chat
+    ports:
+      - "8080:8080"  # Exposes port 8080 for the service
+    environment:
+      - MODEL_1=gemma3:1b
+      - MODEL_2=llama3
+    networks:
+      - ai-network
+    restart: always
+    volumes:
+      - ./command-interface-4.py:/app/command-interface-4.py  # Mount the script to the container
+    command: python3 /app/command-interface-4.py  # Run the script when container starts
+
+networks:
+  ai-network:
+    driver: bridge
